@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEATHER OF WORLD</title>
+    <style>
+        body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+    }
+.image_container {
+    width: 300px; /* 컨테이너의 너비 */
+    height: 300px; /* 컨테이너의 높이 */
+    overflow: hidden; /* 이미지가 컨테이너를 벗어나지 않도록 설정 */
+    position: relative;
+}
+img{
+    width: 100%; /* 이미지 너비를 컨테이너에 맞춤 */
+    height: 100%; /* 이미지 높이를 컨테이너에 맞춤 */
+    animation: rotation 10s infinite linear; /* 5초 동안 반복적으로 회전 */
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg); /* 시작 각도 */
+    }
+    to {
+        transform: rotate(360deg); /* 끝 각도 */
+    }
+    
+}
+    </style>
+</head>
+<body>
+    <div class="image_container">
+        <a href="weather_main.html" name="globe" target="_self"><img src="" alt="지구본" class="rotate_image"></a>
+    </div>    
+</body>
+</html>
