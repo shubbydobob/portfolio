@@ -26,10 +26,12 @@ const cities = [
     { id: 'city24', image: '/images/milano.jpg' },
     { id: 'city25', image: '/images/losangeles.jpg' },
     { id: 'city26', image: '/images/california.jpg' },
-    { id: 'city27', image: '/images/danang.jpg' },
-    { id: 'city28', image: '/images/danang.jpg' },
+    { id: 'city27', image: '/images/osaka.jpg' },
+    { id: 'city28', image: '/images/miami.jpg' },
     { id: 'city29', image: '/images/manila.jpg' },
     { id: 'city30', image: '/images/busan.jpg' },
+    { id: 'city31', image: '/images/bern.jpg' },
+    { id: 'city32', image: '/images/buenosaires.jpg' },
     
 ]
 
@@ -37,8 +39,23 @@ cities.forEach(city => {
         const section = document.getElementById(city.id); // city.id가 아닌 HTML에 있는 id를 그대로 사용
         if (section) {
             section.style.backgroundImage = `url(${city.image})`;
-        }
-    });
+
+            section.addEventListener('mouseenter', () => {
+              const info = section.querySelector('.info');
+              if (info) {
+                  info.style.display = 'block'; // 마우스 오버 시 보이게
+              }
+          });
+
+          section.addEventListener('mouseleave', () => {
+              const info = section.querySelector('.info');
+              if (info) {
+                  info.style.display = 'none'; // 마우스가 벗어나면 숨기기
+              }
+          });
+      }
+  });
+});
 
 
       window.addEventListener('scroll', function () {
@@ -51,4 +68,7 @@ cities.forEach(city => {
           footer.classList.remove('show');
         }
       });
-    })
+  
+
+    
+    
