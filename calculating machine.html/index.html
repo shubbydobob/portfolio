@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>국내주식 & 해외주식 단가 계산기</title>
+    
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8d7da; /* 연한 빨강색 배경 */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    header {
+        background-color: #e57373; /* 연한 빨강색 헤더 */
+        color: white;
+        padding: 30px;
+        text-align: center;
+        width: 300%;
+    }
+    
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+    }
+    
+    nav ul li {
+        margin: 0 15px;
+    }
+    
+    nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    
+    nav ul li a:hover {
+        text-decoration: underline;
+    }
+    
+    main {
+        padding: 20px;
+        margin-top: 20px;
+        width: 100%;
+        max-width: 800px;
+    }
+    
+    .calculator {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+    
+    .input-group {
+        margin-bottom: 15px;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    input[type="number"], select {
+        width: 80%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    
+    button {
+        background-color: #e57373; /* 연한 빨강색 버튼 */
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 16px;
+    }
+    
+    button:hover {
+        background-color: #c62828; /* 버튼 호버 시 더 진한 빨강색 */
+    }
+    
+    #wonResult, #usdResult {
+        margin-top: 20px;
+        text-align: center;
+    }
+    
+    footer {
+        background-color: #e57373; /* 연한 빨강색 푸터 */
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        width: 100%;
+    }</style>
+</head>
+<body>
+    <header>
+        <h1>국내주식 & 해외주식 단가 계산기</h1>
+        <nav>
+            <ul>
+                <li><a href="#wonCalculator">원화 계산기</a></li>
+                <li><a href="#usdCalculator">달러 계산기</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- 국내 주식 단가 계산기 -->
+        <section class="calculator" id="wonCalculator">
+            <h2 style="text-align: center;">국내 주식 단가 계산기</h2>
+            <form id="wonForm">
+                <div class="input-group">
+                    <label for="wonPrice1">보유 평균 단가 (₩):</label>
+                    <input type="number" id="wonPrice1" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="wonQuantity1">수량:</label>
+                    <input type="number" id="wonQuantity1" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="wonPrice2">추가 매수가 (₩):</label>
+                    <input type="number" id="wonPrice2" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="wonQuantity2">수량 :</label>
+                    <input type="number" id="wonQuantity2" required>
+                </div>
+
+                <button type="button" onclick="calculateWonStockAverage()">평균 단가 계산</button>
+            </form>
+
+            <div id="wonResult">
+                <h3>평균 단가: <span id="wonAveragePrice">₩0</span></h3>
+            </div>
+        </section>
+
+        <!-- 해외 주식 단가 계산기 -->
+        <section class="calculator" id="usdCalculator">
+            <h2 style="text-align: center;">해외 주식 단가 계산기</h2>
+            <form id="usdForm">
+                <div class="input-group">
+                    <label for="usdPrice1">보유 평균 단가 ($):</label>
+                    <input type="number" id="usdPrice1" step="0.01" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="usdQuantity1">수량 :</label>
+                    <input type="number" id="usdQuantity1" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="usdPrice2">추가 매수가 ($):</label>
+                    <input type="number" id="usdPrice2" step="0.01" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="usdQuantity2">수량 :</label>
+                    <input type="number" id="usdQuantity2" required>
+                </div>
+
+                <button type="button" onclick="calculateUsdStockAverage()">평균 단가 계산</button>
+            </form>
+
+            <div id="usdResult">
+                <h3>평균 단가: <span id="usdAveragePrice">$0.00</span></h3>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024년 성투하시길 바랍니다.</p>
+    </footer>
+
+   
+    <script>function calculateWonStockAverage() {
+        // 원화 주식 단가 계산기
+        const price1 = parseFloat(document.getElementById("wonPrice1").value);
+        const quantity1 = parseInt(document.getElementById("wonQuantity1").value);
+        const price2 = parseFloat(document.getElementById("wonPrice2").value);
+        const quantity2 = parseInt(document.getElementById("wonQuantity2").value);
+    
+        // 평균 단가 계산
+        const totalCost = (price1 * quantity1) + (price2 * quantity2);
+        const totalQuantity = quantity1 + quantity2;
+        const averagePrice = totalCost / totalQuantity;
+    
+        // 결과 출력
+        document.getElementById("wonAveragePrice").innerText = `₩${averagePrice.toFixed(2)}`;
+    }
+    
+    function calculateUsdStockAverage() {
+        // 달러 주식 단가 계산기
+        const price1 = parseFloat(document.getElementById("usdPrice1").value);
+        const quantity1 = parseInt(document.getElementById("usdQuantity1").value);
+        const price2 = parseFloat(document.getElementById("usdPrice2").value);
+        const quantity2 = parseInt(document.getElementById("usdQuantity2").value);
+    
+        // 평균 단가 계산
+        const totalCost = (price1 * quantity1) + (price2 * quantity2);
+        const totalQuantity = quantity1 + quantity2;
+        const averagePrice = totalCost / totalQuantity;
+    
+        // 결과 출력
+        document.getElementById("usdAveragePrice").innerText = `$${averagePrice.toFixed(2)}`;
+    }</script>
+</body>
+</html>
